@@ -8,3 +8,4 @@ class Settings:
         self.screen_width = 1200   # Screen width in pixels
         self.screen_height = 580  # Screen height in pixels
         self.bg_color = (230, 230, 230)  # Background color (RGB tuple)
+        self.ship_speed = 0.75
