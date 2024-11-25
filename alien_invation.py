@@ -7,6 +7,7 @@ from ship import Ship
 from time import sleep
 from bullet import Bullet
 from alien import Alien
+from button import Button
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -23,6 +24,8 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
+        # Make the Play button.
+        self.play_button = Button(self, "Play")
 
     def _create_fleet(self):
         """Create the fleet of aliens."""
@@ -80,6 +83,9 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
@@ -98,6 +104,11 @@ class AlienInvasion:
             self.ship.moving_right = False
         if event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.game_active = True
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
@@ -124,6 +135,7 @@ class AlienInvasion:
             if alien.check_edges():
                 self._change_fleet_direction()
                 break
+
     def _change_fleet_direction(self):
         """Drop the entire fleet and change the fleet's direction."""
         for alien in self.aliens.sprites():
@@ -175,6 +187,9 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+        # Draw the play button if the game is inactive.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 if __name__ == '__main__':
     # Make a game instance, and run the game.
