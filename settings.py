@@ -8,7 +8,9 @@ class Settings:
         self.screen_width = 1200   # Screen width in pixels
         self.screen_height = 580  # Screen height in pixels
         self.bg_color = (230, 230, 230)  # Background color (RGB tuple)
+        #ship settings
         self.ship_speed = 0.50
+        self.ship_limit = 3
         # Bullet settings
         self.bullet_speed = 2.0
         self.bullet_width = 300
